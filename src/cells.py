@@ -28,18 +28,20 @@ def test_print_cells():
     for key, value in cells.items():
         print(key, end="")
         print_cell(key)
+        print("")
 
     print("***")
     for key, value in cells.items():
         print(key, end="")
         print_cell(key, True)
+        print("")
 
 def print_cell(directions, highlight=False):
     key = "".join(sorted(directions)).upper()
     if not highlight:
-        print(cells[key])
+        print(cells[key], end="")
     else:
-        print('\033[31m'+cells[key]+'\033[0m')
+        print('\033[31m'+cells[key]+'\033[0m', end="")
 
 if __name__ == "__main__":
     print("""
