@@ -3,6 +3,7 @@ import os
 import sys
 import random
 import cells
+from getch import getch
 
 def clear_screen():
     """Clear the screen."""
@@ -17,20 +18,23 @@ class Maze():
     def __init__(self):
         self.maze_size = 16
         self.maze = list()
-        self.position = (0, 0)
+        self.position = [0, 0]
         for i in range(self.maze_size):
             self.maze.append([""]*self.maze_size)
         self._generate()
 
     def game_loop(self):
-        while not should_exit():
-            pass
-
-    def should_exit(self):
-        return False
+        while True:
+            self.draw_screen()
+            print(self.position)
+            direction = self.get_input()
+            if direction.upper() == 'Q':
+                print("Quitting...")
+                break
+            self.move(direction)
 
     def get_input(self):
-        return sys.stdin.read(1)
+        return getch()
 
     def move(self, direction):
         direction_map = {
@@ -38,8 +42,8 @@ class Maze():
                 "A": "W",
                 "S": "S",
                 "D": "E",
-                "J": "N",
-                "K": "S",
+                "J": "S",
+                "K": "N",
                 "H": "W",
                 "L": "E"
         }
@@ -47,13 +51,27 @@ class Maze():
         if direction.upper() in direction_map:
             direction = direction_map[direction.upper()]
 
+        cell = self._get_cell(self.position)
+        if direction.upper() not in cell:
+            return
+
+        if direction.upper() == 'N':
+            self.position[0]-=1
+        if direction.upper() == 'S':
+            self.position[0]+=1
+        if direction.upper() == 'E':
+            self.position[1]+=1
+        if direction.upper() == 'W':
+            self.position[1]-=1
+
 
     def draw_screen(self):
         """draw the maze"""
         clear_screen()
+        self._print_header()
         for i in range(self.maze_size):
             for j in range(self.maze_size):
-                if self.position == (i, j):
+                if self.position[0] == i and self.position[1] == j:
                     cells.print_cell(self.maze[i][j], True)
                 else:
                     cells.print_cell(self.maze[i][j], False)
@@ -113,12 +131,22 @@ class Maze():
             seen.add(new_coord)
         
     def _get_cell(self, position):
-        return self.maze[position[1]][position[2]]
+        return self.maze[position[0]][position[1]]
 
+    def _print_header(self):
+        print(f"""Welcome to the Maze by Scott Andersen!
+Instructions (case insensitive):
+Q - quit
+W / J - move north        N
+A / H - move east       W   E
+S / K - move south        S
+D / L - move west
+Tested on linux! I hope it works on Mac/PC :) 
+***
+""")
 
 if __name__ == "__main__":
     maze = Maze()
-    #maze.game_loop()
-    maze.draw_screen()
+    maze.game_loop()
 
 
