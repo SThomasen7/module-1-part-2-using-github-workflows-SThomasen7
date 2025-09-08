@@ -1,4 +1,5 @@
-"""Get character function.
+"""
+Get character function.
 
 full disclosure this code was taken from the internet.
 source: https://code.activestate.com/recipes/134892/
@@ -25,7 +26,8 @@ class _Getch:
 class _GetchUnix:
     def __init__(self):
         """Initialize the class."""
-        pass
+        import termios
+        dir(termios)
 
     def __call__(self):
         """Call unix getch."""
@@ -45,7 +47,8 @@ class _GetchUnix:
 class _GetchWindows:
     def __init__(self):
         """Initialize the class."""
-        pass
+        import msvcrt
+        dir(msvcrt)
 
     def __call__(self):
         """Call windows getch."""
