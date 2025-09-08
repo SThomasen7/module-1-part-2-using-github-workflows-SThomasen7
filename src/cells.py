@@ -1,4 +1,4 @@
-#!/home/stasen/anaconda3/envs/atms_env/bin/python
+#!/bin/python3
 
 #   N
 # W   E
