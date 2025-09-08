@@ -8,7 +8,7 @@ from getch import getch
 
 def clear_screen():
     """Clear the screen."""
-    # disclaimer: AI helped me with this function
+    # Disclaimer: AI helped me with this function
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -29,13 +29,21 @@ class Maze():
 
     def game_loop(self):
         """Run the game loop."""
+        direction = ""
+        # Infinite loop for the game loop, we break out with breaks.
         while True:
+
+            # Check if the maze has been escaped.
             if self.position[0] == self.maze_size-1 and \
                     self.position[1] == self.maze_size:
                 print("You've escaped the maze!!")
                 break
 
+            # Redraw the screen.
             self.draw_screen()
+            print("Previous move: ", direction)
+
+            # Get the next move, quit if the user inputs 'Q'.
             direction = self.get_input()
             if direction.upper() == 'Q':
                 print("Quitting...")
@@ -59,13 +67,16 @@ class Maze():
                 "L": "E"
         }
 
+        # Map keypress to a direction.
         if direction.upper() in direction_map:
             direction = direction_map[direction.upper()]
 
+        # Check if that move is valid for the current cell.
         cell = self._get_cell(self.position)
         if direction.upper() not in cell:
             return
 
+        # Adjust the position based on the keypress.
         if direction.upper() == 'N':
             self.position[0] -= 1
         if direction.upper() == 'S':
@@ -79,6 +90,8 @@ class Maze():
         """Draw the maze."""
         clear_screen()
         self._print_header()
+
+        # Print the maze cells, highlight if we are in that position.
         for i in range(self.maze_size):
             for j in range(self.maze_size):
                 if self.position[0] == i and self.position[1] == j:
@@ -97,6 +110,7 @@ class Maze():
         seen.add(coord)
         stack = list()
 
+        # Helper functions.
         def get_unvisited_neighbors(coord):
             """Get unvisited neighbors for the given cell."""
             neighbors = list()
@@ -131,6 +145,7 @@ class Maze():
             # print(f"{c1}-{c2}  -> ", "
             #   {self.maze[c1[0]][c1[1]]}, {self.maze[c2[0]][c2[1]]}")
 
+        # Until we have visited all of the cells, keep visiting.
         while len(seen) < self.maze_size * self.maze_size:
             unvisited = get_unvisited_neighbors(coord)
             # if we have no unvisited neighbors, we pop the stack and continue
@@ -153,7 +168,7 @@ class Maze():
         return self.maze[position[0]][position[1]]
 
     def _print_header(self):
-        """Print the header."""
+        """Print the screen header."""
         print("""Welcome to the Maze by Scott Andersen!
 Instructions (case insensitive):
 Q - quit
