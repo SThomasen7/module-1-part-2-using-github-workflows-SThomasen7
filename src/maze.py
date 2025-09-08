@@ -26,7 +26,6 @@ class Maze():
     def game_loop(self):
         while True:
             self.draw_screen()
-            print(self.position)
             direction = self.get_input()
             if direction.upper() == 'Q':
                 print("Quitting...")
