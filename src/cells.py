@@ -1,5 +1,12 @@
 #!/bin/python3
 
+"""
+Create a mapping for the cardinal directions to the maze paths.
+
+This file includes a couple of helper functions and main input
+just to print and view the unicode characters
+"""
+
 #   N
 # W   E
 #   S
@@ -24,7 +31,9 @@ cells = {
     "ENSW": "\u254B"
 }
 
+
 def test_print_cells():
+    """View all of the possible blocks."""
     for key, value in cells.items():
         print(key, end="")
         print_cell(key)
@@ -36,12 +45,15 @@ def test_print_cells():
         print_cell(key, True)
         print("")
 
+
 def print_cell(directions, highlight=False):
+    """Print a cell as a unicode character."""
     key = "".join(sorted(directions)).upper()
     if not highlight:
         print(cells[key], end="")
     else:
         print('\033[31m'+cells[key]+'\033[0m', end="")
+
 
 if __name__ == "__main__":
     print("""
@@ -50,4 +62,3 @@ if __name__ == "__main__":
     S
 ***""")
     test_print_cells()
-
