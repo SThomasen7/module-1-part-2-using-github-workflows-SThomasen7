@@ -79,7 +79,10 @@ class Maze():
                     cells.print_cell(self.maze[i][j], True)
                 else:
                     cells.print_cell(self.maze[i][j], False)
-            print("")
+            if i == self.maze_size - 1:
+                print(" <- EXIT")
+            else:
+                print("")
 
     def _generate(self):
         seen = set()
