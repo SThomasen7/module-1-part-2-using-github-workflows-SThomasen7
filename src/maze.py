@@ -25,6 +25,11 @@ class Maze():
 
     def game_loop(self):
         while True:
+            if self.position[0] == self.maze_size-1 and \
+                    self.position[1] == self.maze_size:
+                        print("You've escaped the maze!!")
+                        break
+
             self.draw_screen()
             direction = self.get_input()
             if direction.upper() == 'Q':
@@ -129,6 +134,9 @@ class Maze():
             coord = new_coord
             seen.add(new_coord)
         
+        # after the maze is generated add the exit position
+        self.maze[self.maze_size-1][self.maze_size-1] += 'E'
+
     def _get_cell(self, position):
         return self.maze[position[0]][position[1]]
 
